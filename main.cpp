@@ -12,6 +12,18 @@ int main( int argc, char *argv[] )
 
         png_toolkit studTool;
         studTool.load(argv[1]);
+		image_data image = studTool.getPixelData();
+		if (image.compPerPixel >= 3)
+		{
+			size_t image_size = (size_t)image.w * image.h * image.compPerPixel;
+			unsigned char* p = NULL;
+			for (p = image.pixels; p < image.pixels + image_size / 2; p += image.compPerPixel);
+			for (; p < image.pixels + image_size; p += image.compPerPixel)
+			{
+				*p = 255;
+				*(p + 1) = *(p + 2) = 0;
+			}
+		}
         studTool.save(argv[2]);
 
     }

@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+#include <string>
+#include "filters/filters.h"
 #include "png_toolkit.h"
 
 int main( int argc, char *argv[] )
@@ -7,24 +10,39 @@ int main( int argc, char *argv[] )
     // toolkit near test images!
     try
     {
-        if (argc != 3)
-            throw "Not enough arguments";
-
-        png_toolkit studTool;
-        studTool.load(argv[1]);
+        //if (argc != 3)
+            //throw "Not enough arguments";
+		std::string filterName;
+		std::ifstream configStream;
+		size_t u, l, b, r;
+		configStream.open((char*)argv[1]);
+		png_toolkit studTool;
+		studTool.load(argv[2]);
 		image_data image = studTool.getPixelData();
-		if (image.compPerPixel >= 3)
+		while (!configStream.eof())
 		{
-			size_t image_size = (size_t)image.w * image.h * image.compPerPixel;
-			unsigned char* p = NULL;
-			for (p = image.pixels; p < image.pixels + image_size / 2; p += image.compPerPixel);
-			for (; p < image.pixels + image_size; p += image.compPerPixel)
+			configStream >> filterName;
+			configStream >> u >> l >> b >> r;
+			if (image.compPerPixel >= 3)
 			{
-				*p = 255;
-				*(p + 1) = *(p + 2) = 0;
+				FilterBase* filter;
+				if (filterName == "Red")
+					filter = new FilterRed();
+				else if (filterName == "Blur")
+					filter = new FilterBlur();
+				else if (filterName == "Edge")
+					filter = new FilterEdge();
+				else if (filterName == "Threshold")
+					filter = new FilterThreshold();
+				else 
+					continue;
+				filter->ApplyFilter(image, { l == 0 ? 0 : image.w / l, u == 0 ? 0 : image.h / u, r == 0 ? 0 : image.w / r, b == 0 ? 0 : image.h / b, });
+				delete filter;
 			}
+			filterName.clear();
 		}
-        studTool.save(argv[2]);
+		configStream.close();
+        studTool.save(argv[3]);
 
     }
     catch (const char *str)

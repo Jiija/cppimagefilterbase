@@ -1,17 +1,20 @@
 #pragma once
 #include "png_toolkit.h"
 
-class Painter
-{
-	virtual char* paint(const image_data& img, size_t vBound, size_t hBound);
+struct AreaBounds {
+	size_t hStart;
+	size_t vStart;
+	size_t hBound;
+	size_t vBound;
 };
 
 class FilterBase
 {
 public:
 	FilterBase() = 0;
-	~FilterBase();
-	virtual void ApplyFilter(image_data &img, size_t vBound, size_t hBound);
+	~FilterBase() = 0;
+	virtual void ApplyFilter(image_data& img, const AreaBounds& bounds) { ProcessImage(img, bounds); };
 protected:
-	Painter* _painter;
+	void ProcessPixel(const image_data& img, stbi_uc* newPixels, size_t i, size_t j, const AreaBounds& bounds) = 0;
+	void ProcessImage(image_data& img, const AreaBounds& bounds);
 };

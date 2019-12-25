@@ -8,10 +8,10 @@ int main(int argc, char* argv[])
 {
 	// toolkit filter_name base_pic_name sudent_tool student_pic_name limitPix limitMSE
 	// toolkit near test images!
-	//try
-	//{
-		//if (argc != 3)
-			//throw "Not enough arguments";
+	try
+	{
+		if (argc != 4)
+			throw "Not enough arguments";
 	std::string filterName;
 	std::ifstream configStream;
 	size_t u, l, b, r;
@@ -44,12 +44,12 @@ int main(int argc, char* argv[])
 	configStream.close();
 	studTool.save(argv[3]);
 
-	//}
-	//catch (const char* str)
-	//{
-	//	std::cout << "Error: " << str << std::endl;
-	//	return 1;
-	//}
+	}
+	catch (const char* str)
+	{
+		std::cout << "Error: " << str << std::endl;
+		return 1;
+	}
 
 	return 0;
 }

@@ -2,6 +2,8 @@
 #include "filterbase.h"
 class FilterConv : public FilterBase
 {
+public:
+	virtual ~FilterConv() {};
 protected:
 	int convolutionMatrix[9];
 	void ProcessPixel(const image_data& img, stbi_uc* newPixels, size_t i, size_t j, const AreaBounds& bounds);

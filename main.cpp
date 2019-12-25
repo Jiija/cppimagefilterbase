@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	std::string filterName;
 	std::ifstream configStream;
 	size_t u, l, b, r;
-	configStream.open(argv[1]);
+	configStream.open(argv[1], std::ifstream::in);
 	png_toolkit studTool;
 	studTool.load(argv[2]);
 	image_data image = studTool.getPixelData();

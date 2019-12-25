@@ -12,6 +12,7 @@ class FilterBase
 {
 public:
 	virtual void ApplyFilter(image_data& img, const AreaBounds& bounds) { ProcessImage(img, bounds); };
+	virtual ~FilterBase() {};
 protected:
 	virtual void ProcessPixel(const image_data& img, stbi_uc* newPixels, size_t i, size_t j, const AreaBounds& bounds) = 0;
 	void ProcessImage(image_data& img, const AreaBounds& bounds);

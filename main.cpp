@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "filters/filters.h"
+#include "filters.h"
 #include "png_toolkit.h"
 
 int main(int argc, char* argv[])

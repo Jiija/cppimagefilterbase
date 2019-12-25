@@ -3,7 +3,7 @@
 class FilterBW : public FilterBase 
 {
 protected:
-	void FilterBW::ProcessPixel(const image_data& img, stbi_uc* copyPixels, size_t i, size_t j, const AreaBounds& bounds) override
+	void ProcessPixel(const image_data& img, stbi_uc* copyPixels, size_t i, size_t j, const AreaBounds& bounds) override
 	{
 		stbi_uc* currPixel;
 		stbi_uc x;

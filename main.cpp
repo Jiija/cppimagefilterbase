@@ -19,10 +19,15 @@ int main(int argc, char* argv[])
 	png_toolkit studTool;
 	studTool.load(argv[2]);
 	image_data image = studTool.getPixelData();
+	AreaBounds bounds;
 	while (!configStream.eof())
 	{
 		configStream >> filterName;
 		configStream >> u >> l >> b >> r;
+		bounds.vStart = u == 0 ? 0 : image.h / u;
+		bounds.hStart = l == 0 ? 0 : image.w / l;
+		bounds.vBound = b == 0 ? 0 : image.h / b;
+		bounds.hBound = r == 0 ? 0 : image.w / r;
 		if (image.compPerPixel >= 3)
 		{
 			FilterBase* filter;
@@ -36,7 +41,7 @@ int main(int argc, char* argv[])
 				filter = new FilterThreshold();
 			else
 				continue;
-			filter->ApplyFilter(image, { l == 0 ? 0 : image.w / l, u == 0 ? 0 : image.h / u, r == 0 ? 0 : image.w / r, b == 0 ? 0 : image.h / b, });
+			filter->ApplyFilter(image, bounds);
 			delete filter;
 		}
 		filterName.clear();

@@ -29,8 +29,8 @@ void FilterConv::ProcessPixel(const image_data& img, stbi_uc* copyPixels, size_t
 	size_t hBeg, hEnd, vBeg, vEnd;
 	hBeg = j < bounds.hStart + 1 ? bounds.hStart : j - 1;
 	vBeg = i < bounds.vStart + 1 ? bounds.vStart : i - 1;
-	hEnd = j + 2 > bounds.hBound - 1 ? bounds.hBound - 1 : j + 1;
-	vEnd = i + 2 > bounds.vBound - 1 ? bounds.vBound - 1 : i + 1;
+	hEnd = j + 1 > bounds.hBound - 1 ? bounds.hBound - 1 : j + 1;
+	vEnd = i + 1 > bounds.vBound - 1 ? bounds.vBound - 1 : i + 1;
 	int sum, div;
 	for (size_t l = 0; l < 3; l++)
 	{

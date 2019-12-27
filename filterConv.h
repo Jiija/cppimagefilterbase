@@ -27,22 +27,19 @@ void FilterConv::ProcessPixel(const image_data& img, stbi_uc* copyPixels, size_t
 	stbi_uc* currPixel;
 	currPixel = img.pixels + i * img.w * img.compPerPixel + j * img.compPerPixel;
 	size_t hBeg, hEnd, vBeg, vEnd;
-	hBeg = j < bounds.hStart + 1 ? bounds.hStart : j - 1;
-	vBeg = i < bounds.vStart + 1 ? bounds.vStart : i - 1;
-	hEnd = j + 1 > bounds.hBound/* - 1*/ ? bounds.hBound/* - 1*/ : j + 1;
-	vEnd = i + 1 > bounds.vBound/* - 1*/ ? bounds.vBound/* - 1*/ : i + 1;
+
 	int sum, div;
 	for (size_t l = 0; l < 3; l++)
 	{
 		sum = div = 0;
 		for (int k = -1; k < 2; k++)
 		{
-			if (k == -1 && vBeg == bounds.vStart || k == 1 && vEnd == bounds.vBound/* - 1*/)
+			if (k == -1 && i < bounds.vStart + 1 || k == 1 && i + 1 >= bounds.vBound)
 				pixelValues[(k + 1) * 3] = pixelValues[(k + 1) * 3 + 1] = pixelValues[(k + 1) * 3 + 2] = 0;
 			else
 				for (int m = -1; m < 2; m++)
 				{
-					if (m == -1 && hBeg == bounds.hStart || m == 1 && hEnd == bounds.hBound/* - 1*/)
+					if (m == -1 && j < bounds.hStart + 1 || m == 1 && j + 1 >= bounds.hBound)
 						pixelValues[(k + 1) * 3 + (m + 1)] = 0;
 					else
 						pixelValues[(k + 1) * 3 + (m + 1)] = copyPixels[(size_t)((int)i + k) * img.w * img.compPerPixel + (size_t)((int)j + m) * img.compPerPixel + l];

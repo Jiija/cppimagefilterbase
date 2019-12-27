@@ -26,8 +26,8 @@ void FilterThreshold::ProcessPixel(const image_data& img, stbi_uc* copyPixels, s
 	size_t hBeg, hEnd, vBeg, vEnd;
 	hBeg = j < bounds.hStart + 2 ? bounds.hStart : j - 2;
 	vBeg = i < bounds.vStart + 2 ? bounds.vStart : i - 2;
-	hEnd = j + 2 > bounds.hBound/* - 1*/ ? bounds.hBound/* - 1*/ : j + 2;
-	vEnd = i + 2 > bounds.vBound/* - 1*/ ? bounds.vBound/* - 1*/ : i + 2;
+	hEnd = j + 2 >= bounds.hBound ? bounds.hBound - 1 : j + 2;
+	vEnd = i + 2 >= bounds.vBound ? bounds.vBound - 1 : i + 2;
 	size_t pixelNum = (hEnd - hBeg + 1) * (vEnd - vBeg + 1);
 	stbi_uc* intenArr = new stbi_uc[pixelNum];
 	size_t l = 0;

@@ -20,8 +20,9 @@ protected:
 
 void FilterThreshold::ProcessPixel(const image_data& img, stbi_uc* copyPixels, size_t i, size_t j, const AreaBounds& bounds)
 {
-	stbi_uc* currPixel;
+	stbi_uc* currPixel, *copyPixel;
 	currPixel = img.pixels + i * img.w * img.compPerPixel + j * img.compPerPixel;
+	copyPixel = copyPixels + i * img.w * img.compPerPixel + j * img.compPerPixel;
 
 	size_t hBeg, hEnd, vBeg, vEnd;
 	hBeg = j < bounds.hStart + 2 ? bounds.hStart : j - 2;
@@ -33,9 +34,13 @@ void FilterThreshold::ProcessPixel(const image_data& img, stbi_uc* copyPixels, s
 	size_t l = 0;
 	for (size_t k = vBeg; k <= vEnd; k++)
 		for (size_t m = hBeg; m <= hEnd; m++)
-			intenArr[l++] = copyPixels[k * img.w * img.compPerPixel + m * img.compPerPixel];
+		{
+			intenArr[l] = copyPixels[k * img.w * img.compPerPixel + m * img.compPerPixel];
+			l++;
+		}
+			
 	std::sort(intenArr, intenArr + pixelNum - 1);
-	if (*currPixel < intenArr[pixelNum / 2])
-		* currPixel = *(currPixel + 1) = *(currPixel + 2) = 0;
+	if (*copyPixel < intenArr[pixelNum / 2])
+		*currPixel = *(currPixel + 1) = *(currPixel + 2) = 0;
 	delete[] intenArr;
 }

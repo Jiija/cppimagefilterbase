@@ -14,8 +14,8 @@ public:
 	FilterEdge() : preProc(new BWpreProc)
 	{
 		static const int defMatrix[9] = { -1, -1, -1,
-						   -1,  9, -1,
-						   -1, -1, -1 };
+										  -1,  9, -1,
+										  -1, -1, -1 };
 		for (int i = 0; i < 9; i++)
 			convolutionMatrix[i] = defMatrix[i];
 	};

@@ -39,7 +39,7 @@ void FilterThreshold::ProcessPixel(const image_data& img, stbi_uc* copyPixels, s
 			l++;
 		}
 			
-	std::sort(intenArr, intenArr + pixelNum - 1);
+	std::sort(intenArr, intenArr + pixelNum);
 	if (*copyPixel < intenArr[pixelNum / 2])
 		*currPixel = *(currPixel + 1) = *(currPixel + 2) = 0;
 	delete[] intenArr;
